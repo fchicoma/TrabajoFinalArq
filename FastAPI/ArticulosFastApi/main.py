@@ -20,7 +20,7 @@ articulos = []
 @app.post("/articulo/")
 async def crear_articulo(articulo: Articulo):
     articulos.append(articulo)
-    return {"mensaje": "Artículo creado exitosamente"}
+    return {"mensaje": "Artículo creado exitosamente, funciona el git"}
 
 @app.delete("/articulo/{id}")
 async def borrar_articulo(id: int):
