@@ -1,0 +1,9 @@
+{% extends "base_generic.html" %}
+{% block content %}
+  <h2>Bibliotecas en "{{ ciudad }}"</h2>
+  <ul>
+    {% for biblioteca in bibliotecas %}
+      <li>{{ biblioteca.nombre }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

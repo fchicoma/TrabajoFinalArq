@@ -1,0 +1,9 @@
+{% extends "base_generic.html" %}
+{% block content %}
+  <h2>Libros con título "{{ titulo }}"</h2>
+  <ul>
+    {% for libro in libros %}
+      <li>{{ libro.titulo }} ({{ libro.biblioteca.nombre }})</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

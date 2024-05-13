@@ -45,6 +45,6 @@ def buscar_libro_por_titulo(request, titulo):
 
 # Buscar libro por título y disponibilidad
 def buscar_libro_por_titulo_y_disponibilidad(request, titulo):
-    libros = Libro.objects.filter(titulo=titulo, numero_de_ejemplares__gt=0)
+    libros = Libro.objects.filter(titulo=titulo, numero_ejemplares__gt=0)
     return render(request, 'buscar_libro_por_titulo_y_disponibilidad.html', {'libros': libros})
 
