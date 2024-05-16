@@ -1,7 +1,9 @@
-from django.shortcuts import render
-
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404, redirect
 from .models import Biblioteca, Libro
+from .forms import BibliotecaForm, LibroForm
+
+
+
 
 # Listar bibliotecas
 def listar_bibliotecas(request):
@@ -48,3 +50,68 @@ def buscar_libro_por_titulo_y_disponibilidad(request, titulo):
     libros = Libro.objects.filter(titulo=titulo, numero_ejemplares__gt=0)
     return render(request, 'buscar_libro_por_titulo_y_disponibilidad.html', {'libros': libros})
 
+# Añadir nueva biblioteca
+def añadir_biblioteca(request):
+    if request.method == 'POST':
+        form = BibliotecaForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('listar_bibliotecas')
+    else:
+        form = BibliotecaForm()
+    return render(request, 'añadir_biblioteca.html', {'form': form})
+
+# Añadir nuevo libro
+def añadir_libro(request,biblioteca_id):
+    biblioteca = get_object_or_404(Biblioteca, pk=biblioteca_id)
+    if request.method == 'POST':
+        form = LibroForm(request.POST)
+        if form.is_valid():
+            libro = form.save(commit=False)
+            libro.biblioteca = biblioteca
+            libro.save()
+            return redirect('listar_libros_de_biblioteca', biblioteca_id=biblioteca.id)
+    else:
+        form = LibroForm()
+    return render(request, 'añadir_libro.html', {'form': form, 'biblioteca': biblioteca})
+
+# Editar libro
+def editar_libro(request, pk):
+    libro = get_object_or_404(Libro, pk=pk)
+    if request.method == 'POST':
+        form = LibroForm(request.POST, instance=libro)
+        if form.is_valid():
+            form.save()
+            return redirect('listar_libros_de_biblioteca', biblioteca_id=libro.biblioteca.id)
+    else:
+        form = LibroForm(instance=libro)
+    return render(request, 'editar_libro.html', {'form': form})
+
+# Editar biblioteca
+def editar_biblioteca(request, pk):
+    biblioteca = get_object_or_404(Biblioteca, pk=pk)
+    if request.method == 'POST':
+        form = BibliotecaForm(request.POST, request.FILES, instance=biblioteca)
+        if form.is_valid():
+            form.save()
+            return redirect('listar_bibliotecas')
+    else:
+        form = BibliotecaForm(instance=biblioteca)
+    return render(request, 'editar_biblioteca.html', {'form': form})
+
+# Borrar libro
+def borrar_libro(request, pk):
+    libro = get_object_or_404(Libro, pk=pk)
+    if request.method == 'POST':
+        biblioteca_id = libro.biblioteca.id
+        libro.delete()
+        return redirect('listar_libros_de_biblioteca', biblioteca_id=biblioteca_id)
+    return render(request, 'borrar_libro.html', {'object': libro})
+
+# Borrar biblioteca
+def borrar_biblioteca(request, pk):
+    biblioteca = get_object_or_404(Biblioteca, pk=pk)
+    if request.method == 'POST':
+        biblioteca.delete()
+        return redirect('listar_bibliotecas')
+    return render(request, 'borrar_biblioteca.html', {'object': biblioteca})

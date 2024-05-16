@@ -16,5 +16,5 @@ class Libro(models.Model):
     ano_publicacion = models.DateField()
     editorial = models.CharField(max_length=200)
     isbn = models.CharField(max_length=200)
-    numero_ejemplares = models.IntegerField()
+    numero_de_ejemplares = models.IntegerField()
     biblioteca = models.ForeignKey(Biblioteca, on_delete=models.CASCADE)
