@@ -1,9 +1,14 @@
-{% extends "base_generic.html" %}
-{% block content %}
-  <h2>Bibliotecas</h2>
-  <ul>
-    {% for biblioteca in bibliotecas %}
-      <li>{{ biblioteca.nombre }}</li>
-    {% endfor %}
-  </ul>
-{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Listado de Bibliotecas</title>
+</head>
+<body>
+    <h1>Listado de Bibliotecas</h1>
+    <ul>
+        {% for biblioteca in bibliotecas %}
+            <li>{{ biblioteca.nombre }} - {{ biblioteca.ciudad }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

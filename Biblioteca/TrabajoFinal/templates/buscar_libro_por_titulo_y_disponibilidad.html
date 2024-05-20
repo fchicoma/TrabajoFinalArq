@@ -1,9 +1,17 @@
-{% extends "base_generic.html" %}
-{% block content %}
-  <h2>Libros con título "{{ titulo }}" disponibles</h2>
-  <ul>
-    {% for libro in libros %}
-      <li>{{ libro.titulo }} ({{ libro.biblioteca.nombre }})</li>
-    {% endfor %}
-  </ul>
-{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Buscar libros por título y disponibilidad</title>
+</head>
+<body>
+    <h1>Resultados de búsqueda para "{{ titulo }}" con disponibilidad</h1>
+    <ul>
+        {% for libro in libros %}
+            <li>{{ libro.titulo }} - {{ libro.autor }}</li>
+        {% empty %}
+            <li>No se encontraron libros disponibles con el título "{{ titulo }}".</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'listar_bibliotecas' %}">Volver a la lista de bibliotecas</a>
+</body>
+</html>

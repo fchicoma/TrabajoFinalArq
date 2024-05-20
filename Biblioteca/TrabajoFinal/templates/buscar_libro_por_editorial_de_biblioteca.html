@@ -1,9 +1,17 @@
-{% extends "base_generic.html" %}
-{% block content %}
-  <h2>Libros de la editorial "{{ editorial }}" en la biblioteca "{{ biblioteca.nombre }}"</h2>
-  <ul>
-    {% for libro in libros %}
-      <li>{{ libro.titulo }}</li>
-    {% endfor %}
-  </ul>
-{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Buscar libros por editorial en {{ biblioteca.nombre }}</title>
+</head>
+<body>
+    <h1>Resultados de búsqueda para "{{ editorial }}" en {{ biblioteca.nombre }}</h1>
+    <ul>
+        {% for libro in libros %}
+            <li>{{ libro.titulo }} - {{ libro.editorial }}</li>
+        {% empty %}
+            <li>No se encontraron libros de la editorial "{{ editorial }}" en {{ biblioteca.nombre }}.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'listar_libros_de_biblioteca' biblioteca.id %}">Volver a la lista de libros</a>
+</body>
+</html>

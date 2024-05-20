@@ -1,9 +1,18 @@
-{% extends "base_generic.html" %}
-{% block content %}
-  <h2>Libros de "{{ autor }}" en la biblioteca "{{ biblioteca.nombre }}"</h2>
-  <ul>
-    {% for libro in libros %}
-      <li>{{ libro.titulo }}</li>
-    {% endfor %}
-  </ul>
-{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Buscar libros por autor en {{ biblioteca.nombre }}</title>
+</head>
+<body>
+    <h1>Resultados de búsqueda para "{{ autor }}" en {{ biblioteca.nombre }}</h1>
+    <ul>
+        {% for libro in libros %}
+            <li>{{ libro.titulo }} - {{ libro.autor }}</li>
+        {% empty %}
+            <li>No se encontraron libros del autor "{{ autor }}" en {{ biblioteca.nombre }}.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'listar_libros_de_biblioteca' biblioteca.id %}">Volver a la lista de libros</a>
+</body>
+</html>
+
